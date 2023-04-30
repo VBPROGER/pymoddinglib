@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import unittest, pydoc
-pymoddinglib = pydoc.importfile('./__init__.py')
+pymoddinglib = pydoc.importfile('../pymoddinglib/__init__.py')
 magic = pymoddinglib.magic
 
 class TestPyModdingLib(unittest.TestCase):
