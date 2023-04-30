@@ -3,7 +3,7 @@ SHELL := /usr/bin/env bash
 
 sinstall:
 	echo 'Starting installation'
-	python3 -m pip install -e .
+	python3 -m pip install .
 sbuild:
 	echo 'Starting build'
 	python3 -m pip install --user --upgrade setuptools wheel
