@@ -8,7 +8,9 @@ except BaseException:
 
 FILE_FORMAT_PML = '.pml' # PyModdingLib
 FILE_FORMAT_PYC = '.pmlm' # PyModdingLib Mod
+FILE_FORMAT_SOURCE = '.pmls' # PyModdingLib Source
 
 if __name__ == '__main__':
     print(PY_MAGIC)
     print(PY_MAGIC.hex())
+    print(FILE_FORMAT_PML, FILE_FORMAT_PYC, FILE_FORMAT_SOURCE)
