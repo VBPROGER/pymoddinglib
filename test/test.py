@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-import unittest, pymoddinglib, pymoddinglib.magic as magic
+import unittest, pydoc
+pymoddinglib = pydoc.importfile('./__init__.py')
+magic = pymoddinglib.magic
 
 class TestPyModdingLib(unittest.TestCase):
     def setUp(self): self.pml = pymoddinglib
