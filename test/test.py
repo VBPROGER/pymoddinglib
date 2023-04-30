@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 import unittest, pydoc
-pymoddinglib = pydoc.importfile('../pymoddinglib/__init__.py')
-magic = pymoddinglib.magic
+ifile = pydoc.importfile
+pymoddinglib = ifile('pymoddinglib/__init__.py')
+magic = ifile('pymoddinglib/magic.py') 
 
 class TestPyModdingLib(unittest.TestCase):
     def setUp(self): self.pml = pymoddinglib
@@ -10,7 +11,12 @@ class TestPyModdingLib(unittest.TestCase):
         self.assertFalse(self.pml.check_is_bytecode(b'test'))
         self.assertTrue(self.pml.check_is_bytecode(magic.PY_MAGIC))
     def test_check_file_format(self):
-        self.assertFalse(self.pml.check_file_format())
+        self.assertFalse(self.pml.check_file_format('test.pyc'))
+        self.assertFalse(self.pml.check_file_format('test.py'))
+        self.assertFalse(self.pml.check_file_format('.example.txt'))
+        self.assertFalse(self.pml.check_file_format('.test.pmls'))
+        self.assertTrue(self.pml.check_file_format('test.pmlm'))
+        self.assertTrue(self.pml.check_file_format('.test.pmlm'))
     def test_get_fields(self):
         AssemblyError = self.pml.AssemblyError
         AssemblyInformationExample = lambda: None
