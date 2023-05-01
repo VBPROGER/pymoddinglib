@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from typing import Any
 from pydoc import importfile as import_file
+from datetime import datetime
 import os.path as path
 
 __name__ = 'pymoddinglib'
@@ -8,14 +9,20 @@ __version__ = '1.0.0'
 
 class MainError(BaseException): 'Base class for all errors.'
 class AssemblyError(MainError): 'Assembly error.'
+class SecurityError(MainError): 'Security violation error.'
 class PyAssemblyInformation:
     AssemblyName: str
     AssemblyVersion: str
     AssemblyDescription: str
+    AssemblyAuthor: str
+    AssemblyCompany: str
+    AssemblyDate: int
     def __init__(self, *args, **kwargs):
-        self.AssemblyName = ''
+        self.AssemblyName = 'None'
         self.AssemblyVersion = '1.0.0'
-        self.AssemblyDescription = ''
+        self.AssemblyDescription = 'This program has no description.'
+        self.AssemblyAuthor = 'Unknown'
+        self.AssemblyDate = int(datetime.now().year)
         for arg in kwargs:
             value = kwargs[arg]
             self.__setattr__(arg, value)
@@ -23,7 +30,10 @@ class PyAssemblyInformation:
         from json import dumps as dumpstring
         return dumpstring(self.__dict__)
     def __getitem__(self, item: str = 'AssemblyName'): return self.__getattr__(item)
-    def __setitem__(self, item: str = 'AssemblyName', value: any = ''): return self.__setattr__(item, value)
+    def __setitem__(self, item: str = 'AssemblyName', value: any = 'None'):
+        item = str(item).title().strip()
+        if not item.startswith('Assembly'): raise SecurityError('Value out of bounds; should start with "Assembly"')
+        return self.__setattr__(item, value)
 class ModdableApp:
     def __init__(self, name: str, obj, autoscan: bool = False, autoenable: bool = False, *args, **kwargs):
         self.name, self.app = name, obj
