@@ -2,6 +2,7 @@
 from typing import Any
 from pydoc import importfile as import_file
 from datetime import datetime
+from pymoddinglib import magic
 import os.path as path
 
 __name__ = 'pymoddinglib'
@@ -76,7 +77,6 @@ class ModdableApp:
     def get_mod(self, name: str, author: str) -> dict: return self.mods[self.generate_mod_name(name, author)]
     def generate_mod_name(self, name: str, author: str) -> str: return author + self.split_symbol + name
     def get_modpath(self, name: str, author: str):
-        import magic
         return path.join(self.mods_folder, self.generate_mod_name(name, author), name + magic.FILE_FORMAT_PYC)
     def run_mod(self, name: str, author: str, start: bool = True, grant_meta: bool = True, ignore_disabled: bool = False, ignore_incorrect_format: bool = False, ignore_incorrect_magic: bool = False) -> bool or any:
         full_modname = self.generate_mod_name(name, author)
@@ -110,10 +110,8 @@ class ModdableApp:
         for mod in self.mods: self.set_mod_disabled(*self.mod_data_to_tuple(self.extract_mod_data_from_name(mod)))
     def get_mod_module(self, name: str, author: str): return self.run_mod(name, author, False)
 def check_is_bytecode(content: bytes or bytearray) -> bool:
-    import magic
     return content.startswith(magic.PY_MAGIC)
 def check_file_format(filename: str) -> bool:
-    import magic
     return filename.endswith(magic.FILE_FORMAT_PYC)
 def get_fields(imported_module) -> PyAssemblyInformation:
     try:
