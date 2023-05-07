@@ -18,12 +18,16 @@ class PyAssemblyInformation:
     AssemblyAuthor: str
     AssemblyCompany: str
     AssemblyDate: int
+    AssemblyLicense: str
+    AssemblyOrganizationType: str
     def __init__(self, *args, **kwargs):
         self.AssemblyName = 'None'
         self.AssemblyVersion = '1.0.0'
         self.AssemblyDescription = 'This program has no description.'
         self.AssemblyAuthor = 'Unknown'
         self.AssemblyDate = int(datetime.now().year)
+        self.AssemblyLicense = 'Unknown'
+        self.AssemblyOrganizationType = 'com'
         for arg in kwargs:
             value = kwargs[arg]
             self.__setattr__(arg, value)
@@ -35,6 +39,10 @@ class PyAssemblyInformation:
         item = str(item).title().strip()
         if not item.startswith('Assembly'): raise SecurityError('Value out of bounds; should start with "Assembly"')
         return self.__setattr__(item, value)
+    def _normalize(self, s: str = ''): return s.lower().strip() or 'unknown'
+    @property
+    def AssemblyID(self):
+        return '{}.{}.{}_{}'.format(self._normalize(self.AssemblyOrganizationType), self._normalize(self.AssemblyCompany), self._normalize(self.AssemblyName), self.AssemblyVersion.strip())
 class ModdableApp:
     def __init__(self, name: str, obj, autoscan: bool = False, autoenable: bool = False, *args, **kwargs):
         self.name, self.app = name, obj
